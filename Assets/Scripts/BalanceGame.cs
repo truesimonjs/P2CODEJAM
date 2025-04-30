@@ -1,11 +1,17 @@
+using System.Collections;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class BalanceGame : MonoBehaviour
 {
+    public float SceneChangeDelay = 2f;
+    [SerializeField] private string targetScene;
+
     [Header("Scoop Settings")]
     public GameObject[] iceCreamPrefabs;
     public int maxScoops = 5;
     public float scoopInterval = 5f;
+    public int WinNumber = 5;
 
     [Header("Balance Settings")]
     public float torqueStrength = 5f;
@@ -43,6 +49,7 @@ public class BalanceGame : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, 0f, rot.z);
     }
 
+    [System.Obsolete]
     void Update()
     {
         if (gameOver) return;
@@ -101,6 +108,7 @@ public class BalanceGame : MonoBehaviour
         currentScoops++;
     }
 
+    [System.Obsolete]
     void EndGame()
     {
         int stillOnBoard = 0;
@@ -117,13 +125,26 @@ public class BalanceGame : MonoBehaviour
             }
         }
 
-        if (stillOnBoard >= 5)
+        if (stillOnBoard >= WinNumber)
         {
-            Debug.Log("You Win! Scoops Balanced: " + stillOnBoard);
+            Win();
         }
         else
         {
             Debug.Log("You Lose! Scoops Balanced: " + stillOnBoard);
         }
+    }
+    [System.Obsolete]
+    public void Win()
+    {
+        StartCoroutine(WinSequence());
+    }
+
+    [System.Obsolete]
+    private IEnumerator WinSequence()
+    {
+        yield return new WaitForSeconds(SceneChangeDelay);
+        SceneTransitionManager.Instance.TransitionToScene(targetScene);
+        // TODO: Trigger win condition logic
     }
 }

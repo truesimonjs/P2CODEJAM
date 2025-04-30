@@ -412,8 +412,8 @@ Camera:
   m_GameObject: {fileID: 934473260}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -663,11 +663,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0c7843358edb054b92b99f74970a920, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SceneChangeDelay: 2
+  targetScene: SampleScene
   iceCreamPrefabs:
   - {fileID: 6436852314458823070, guid: 1304eace0cca21145b22d7cd63e63bde, type: 3}
   - {fileID: 3208574373653279372, guid: 56379ab4446589740b2eb3d004e9affc, type: 3}
   maxScoops: 20
   scoopInterval: 5
+  WinNumber: 2
   torqueStrength: 10
   maxTiltAngle: 30
   angularDamping: 2
