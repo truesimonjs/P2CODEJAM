@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class QTEStoryController : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class QTEStoryController : MonoBehaviour
 
     [Header("Timing")]
     public float qteDelay = 2f; // Adjustable delay between dialogue and QTE
+    public float SceneChangeDelay = 2f;
 
     private int currentStep = 0;
 
@@ -68,9 +70,16 @@ public class QTEStoryController : MonoBehaviour
     }
 
     [System.Obsolete]
-    void Win()
+    public void Win()
+    {
+        StartCoroutine(WinSequence());
+    }
+
+    [System.Obsolete]
+    private IEnumerator WinSequence()
     {
         dialogueText.text = "<color=green>You survived!</color>";
+        yield return new WaitForSeconds(SceneChangeDelay);
         SceneTransitionManager.Instance.TransitionToScene(targetScene);
         // TODO: Trigger win condition logic
     }
