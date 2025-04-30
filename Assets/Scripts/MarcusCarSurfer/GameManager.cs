@@ -4,7 +4,14 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public GameObject gameOverUI;
+    public GameObject winUI;
     public string targetScene;
+
+    public void WinGame()
+    {
+        winUI.SetActive(true);
+        Time.timeScale = 0f; // Pause game
+    }
 
     public void EndGame()
     {
