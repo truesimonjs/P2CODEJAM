@@ -1,0 +1,2 @@
+C:\Users\cooln\OneDrive\Dokumenter\GitHub\P2CODEJAM\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\CMakeLists.txt
+C:\Users\cooln\OneDrive\Dokumenter\GitHub\P2CODEJAM\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\CMakeLists.txt
