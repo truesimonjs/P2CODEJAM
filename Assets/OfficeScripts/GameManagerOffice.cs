@@ -15,6 +15,7 @@ public class GameManagerOffice : MonoBehaviour
     public float LoseTime = 60f; // Countdown timer
     
     private bool hasWon = false;
+    private bool hasLost = false;
 
     private float currentLoseTime;
 
@@ -43,9 +44,10 @@ public class GameManagerOffice : MonoBehaviour
         {
             LoseScreen.SetActive(true);
             Hand.SetActive(false);
+            hasWon = true;
         }
 
-        if (OfficeScore > WinScore && hasWon == false)
+        if (OfficeScore > WinScore && hasLost == false)
         {
             WinScreen.SetActive(true);
             Hand.SetActive(false);
