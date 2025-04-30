@@ -19,7 +19,7 @@ public class GameManagerOffice : MonoBehaviour
 
     private float currentLoseTime;
 
-    // UI Elements
+    // UI Elements for timer
     public Image LoseTimeFill; // UI Image for circular timer
     public TMP_Text LoseTimeText; // TextMeshPro for timer countdown
     
@@ -31,6 +31,7 @@ public class GameManagerOffice : MonoBehaviour
 
     void Update()
     {
+        // Clock rundown timer animation thingy
         if (currentLoseTime > 0 && hasWon == false)
         {
             currentLoseTime -= Time.deltaTime;
@@ -40,13 +41,15 @@ public class GameManagerOffice : MonoBehaviour
             LoseTimeText.text = Mathf.Ceil(currentLoseTime).ToString(); // Display countdown
 
         }
+        // Lose when time runs out
         else if (currentLoseTime <= 0 && hasWon == false)
         {
             LoseScreen.SetActive(true);
             Hand.SetActive(false);
-            hasWon = true;
+            hasLost = true;
         }
-
+        // Win if score quota is met
+        
         if (OfficeScore > WinScore && hasLost == false)
         {
             WinScreen.SetActive(true);
@@ -55,6 +58,7 @@ public class GameManagerOffice : MonoBehaviour
         }
     }
     
+    // Reload scene if u lose
     public void RestartOfficeScene()
     {
         currentLoseTime = LoseTime; // Reset countdown when restarting

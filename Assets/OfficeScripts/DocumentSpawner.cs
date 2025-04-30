@@ -9,6 +9,8 @@ public class DocumentSpawner : MonoBehaviour
 
     private void Start()
     {
+        // Repeadetly calls for document spawning,
+        // Sort of works like Update() but with a set interval as a param
         InvokeRepeating(nameof(SpawnDocument), spawnInterval, spawnInterval);
     }
 

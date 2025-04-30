@@ -1,5 +1,5 @@
 using System.Collections;
-using UnityEditor.Rendering;
+//using UnityEditor.Rendering;
 using UnityEngine;
 
 public class BalanceGame : MonoBehaviour
@@ -76,9 +76,10 @@ public class BalanceGame : MonoBehaviour
 
     float GetInput()
     {
-#if UNITY_EDITOR || UNITY_STANDALONE
-        return Input.GetAxis("Horizontal");
-#elif UNITY_ANDROID || UNITY_IOS
+
+//#if UNITY_EDITOR || UNITY_STANDALONE
+//        return Input.GetAxis("Horizontal");
+#if UNITY_ANDROID || UNITY_IOS
         return Input.acceleration.x * 2f;
 #else
         return 0f;

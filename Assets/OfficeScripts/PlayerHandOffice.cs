@@ -20,10 +20,12 @@ public class PlayerHandOffice : MonoBehaviour
             screenPosition = Input.GetTouch(0).position;
         }
         // Check for mouse input
+        /*
         else if (Input.GetMouseButton(0))
         {
             screenPosition = Input.mousePosition;
         }
+        */
         else
         {
             return; // Exit if no input detected

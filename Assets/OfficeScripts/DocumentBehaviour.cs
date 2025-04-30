@@ -7,7 +7,8 @@ public class DocumentBehaviour : MonoBehaviour
     public GameManagerOffice gameManagerOffice;
     public TMP_Text scoreText;
     public DocumentPool documentPool;
-
+    
+    // Distance from desk (for despawning / object pooling)
     [SerializeField] private float DistanceFromDesk = 25f;
 
     void Update()
@@ -18,6 +19,7 @@ public class DocumentBehaviour : MonoBehaviour
         // If this object is parented, use the parent's world position
         Vector3 objectWorldPos = transform.position;
 
+        // If doc is far enough from desk, score points in gamemanager, and pool doc object
         if (Vector3.Distance(objectWorldPos, deskWorldPos) > DistanceFromDesk)
         {
             gameManagerOffice.OfficeScore++;

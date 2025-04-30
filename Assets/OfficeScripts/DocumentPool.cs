@@ -5,6 +5,7 @@ public class DocumentPool : MonoBehaviour
 {
     public Queue<GameObject> pool = new Queue<GameObject>();
 
+    // Add to pool method. Is externally called by DocumentBehaviour 
     public void AddToPool(GameObject gameObject)
     {
         gameObject.SetActive(false);
@@ -34,17 +35,5 @@ public class DocumentPool : MonoBehaviour
             Debug.LogWarning("Pool is empty!");
             return null;
         }
-    }
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
