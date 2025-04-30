@@ -149,10 +149,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af0123d3e586cd04099b5f4a71040f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  block: {fileID: 4851399382342734032, guid: 462e820c3f306ef4c930d679a1ae5146, type: 3}
   songBPM: 110
   firstBeatOffset: 6.591198
   songPosition: 0
   songCurrentBeat: 0
+  secPerBeat: 0
 --- !u!82 &887636752
 AudioSource:
   m_ObjectHideFlags: 0
@@ -259,7 +261,7 @@ Transform:
   m_GameObject: {fileID: 887636750}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -326,8 +328,8 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -352,7 +354,7 @@ Transform:
   m_GameObject: {fileID: 1475468832}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
