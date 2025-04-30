@@ -1,11 +1,22 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CloseUI : MonoBehaviour
 {
-    public GameObject uiElement; // Drag your panel or UI object here
+    public Button closeButton; // Assign this in Inspector
+    public UIManager manager;  // Manager reference
+
+    void Start()
+    {
+        if (closeButton != null)
+            closeButton.onClick.AddListener(ClosePanel);
+    }
 
     public void ClosePanel()
     {
-        uiElement.SetActive(false); // Hides the UI
+        if (manager != null)
+            manager.PanelClosed(gameObject); // Notify manager
+
+        Destroy(gameObject); // Remove the panel
     }
 }
