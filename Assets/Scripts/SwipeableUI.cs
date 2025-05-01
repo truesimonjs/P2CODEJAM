@@ -8,9 +8,11 @@ public class SwipeableUI : MonoBehaviour
     private Vector2 startTouchPosition, endTouchPosition;
     private RectTransform rectTransform;
     private bool isTouching = false;
+    private bool isMyTouch = false; // Flag to track if it's the correct UI being dragged
+    private static SwipeableUI currentUI; // Track which UI element is currently being swiped
 
-    public float swipeSpeed = 0.1f;
-    public float swipeThreshold = 100f;
+    public float swipeSpeed = 0.5f;
+    public float swipeThreshold = 10f;
 
     private GraphicRaycaster raycaster;
     private EventSystem eventSystem;
@@ -18,59 +20,85 @@ public class SwipeableUI : MonoBehaviour
     void Start()
     {
         rectTransform = GetComponent<RectTransform>();
-        raycaster = FindObjectOfType<GraphicRaycaster>();
-        eventSystem = FindObjectOfType<EventSystem>();
+        raycaster = FindFirstObjectByType<GraphicRaycaster>();
+        eventSystem = FindFirstObjectByType<EventSystem>();
     }
 
     void Update()
+    {
+#if UNITY_EDITOR || UNITY_STANDALONE
+        HandleMouseInput();
+#else
+        HandleTouchInput();
+#endif
+    }
+
+    void HandleTouchInput()
     {
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
             Vector2 touchPos = touch.position;
-            Debug.Log("1");
 
-            if (touch.phase == TouchPhase.Began && IsTouchOnThisUI(touchPos))
+            if (touch.phase == TouchPhase.Began)
             {
-                isTouching = true;
-                startTouchPosition = touchPos;
-                Debug.Log("2");
+                // Only start dragging if touch is on this specific UI element
+                if (IsTouchOnThisUI(touchPos))
+                {
+                    isTouching = true;
+                    isMyTouch = true; // This UI is the one being interacted with
+                    startTouchPosition = touchPos;
+                    currentUI = this; // Set this UI as the active one being dragged
+                }
+                else
+                {
+                    isMyTouch = false; // Don't start dragging
+                }
             }
 
-            if (touch.phase == TouchPhase.Moved && isTouching)
+            if (isTouching && isMyTouch && (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary))
             {
                 endTouchPosition = touchPos;
                 DetectSwipe();
-                Debug.Log("3");
             }
 
             if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
             {
                 isTouching = false;
-                Debug.Log("4");
+                isMyTouch = false;
+                currentUI = null; // Reset after touch ends
             }
         }
-        else if (Input.GetMouseButtonDown(0))
+    }
+
+    void HandleMouseInput()
+    {
+        if (Input.GetMouseButtonDown(0))
         {
-            Vector2 mousePos = Input.mousePosition;
-            if (IsTouchOnThisUI(mousePos))
+            // Only start dragging if mouse is on this specific UI element
+            if (IsTouchOnThisUI(Input.mousePosition))
             {
                 isTouching = true;
-                startTouchPosition = mousePos;
-                Debug.Log("5");
+                isMyTouch = true; // This UI is the one being interacted with
+                startTouchPosition = Input.mousePosition;
+                currentUI = this; // Set this UI as the active one being dragged
+            }
+            else
+            {
+                isMyTouch = false; // Don't start dragging
             }
         }
-        else if (Input.GetMouseButton(0) && isTouching)
+        else if (Input.GetMouseButton(0) && isTouching && isMyTouch)
         {
             endTouchPosition = Input.mousePosition;
             DetectSwipe();
-            Debug.Log("6");
         }
 
         if (Input.GetMouseButtonUp(0))
         {
             isTouching = false;
-            Debug.Log("7");
+            isMyTouch = false;
+            currentUI = null; // Reset after mouse button is released
         }
     }
 
@@ -86,7 +114,8 @@ public class SwipeableUI : MonoBehaviour
 
         foreach (var result in results)
         {
-            if (result.gameObject == gameObject)
+            // Only return true if the touch/click is on this specific UI element
+            if (result.gameObject == gameObject || result.gameObject.transform.IsChildOf(transform))
                 return true;
         }
 
@@ -99,8 +128,10 @@ public class SwipeableUI : MonoBehaviour
 
         if (swipeDelta.magnitude > swipeThreshold)
         {
-            Vector3 newPos = rectTransform.anchoredPosition + new Vector2(swipeDelta.x * swipeSpeed, 0);
+            // Move the UI element only if it's the active one being interacted with
+            Vector3 newPos = rectTransform.anchoredPosition + swipeDelta * swipeSpeed;
             rectTransform.anchoredPosition = newPos;
+
             startTouchPosition = endTouchPosition;
         }
     }
