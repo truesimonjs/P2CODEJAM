@@ -1,0 +1,106 @@
+using TMPro;
+using UnityEngine;
+
+public class BeatManager : MonoBehaviour
+{
+    public static BeatManager instance;
+    public GameObject block;
+    [SerializeField] TextMeshProUGUI scoreText;
+    [Header("song setup")]
+    [SerializeField] float songBPM = 110;
+    [SerializeField] float firstBeatOffset = 6.591198f;
+    [Header("output  for debugging")]
+    [SerializeField] private float songPosition;
+    [SerializeField] public float songCurrentBeat;
+    //private
+    public float secPerBeat;
+    private AudioSource audioSource;
+
+    // successes and misses
+
+    public int blocksHit = 0;
+    public int blocksTotal = 0;
+
+    float songStart;
+    private void Awake()
+    {
+        if (instance != null) Debug.LogError("instance of beatmanager already exists");
+        instance = this;
+        audioSource = GetComponent<AudioSource>();
+        secPerBeat = 60 / songBPM;
+        songStart = (float)AudioSettings.dspTime;
+        audioSource.Play();
+
+    }
+    private void Start()
+    {
+        InvokeRepeating("SpawnBlock", 0, secPerBeat);
+
+        /*float x = 4;
+        for (int i = 1; i <= 100; i++)
+        {
+            GameObject newblock = Instantiate(block);
+            newblock.GetComponent<BeatBlock>().destinationBeat = i;
+            newblock.transform.position = new Vector3(x, 9.5f, 0);
+            newblock.GetComponent<BeatBlock>().destination = new Vector3(x, -9.5f, 0);
+            x -= 1;
+            if (x < -4) x = 4;
+        }*/
+    }
+    const float xRange = 4;
+    const float yRange = 9.5f;
+    float x = xRange;
+    int i = 1;
+    public void SpawnBlock()
+    {
+
+
+        GameObject newblock = Instantiate(block);
+        newblock.GetComponent<BeatBlock>().destinationBeat = i;
+        newblock.transform.position = new Vector3(x, yRange, 0);
+        newblock.GetComponent<BeatBlock>().destination = new Vector3(x, -yRange, 0);
+        x -= 1;
+        if (x < -xRange) x = xRange;
+        i++;
+
+    }
+    private void Update()
+    {
+        songPosition = (float)AudioSettings.dspTime - songStart - firstBeatOffset;
+        songCurrentBeat = songPosition / secPerBeat + 1;
+
+
+
+    }
+    public void BlockFinished(bool playerHitBlock)
+    {
+        if (playerHitBlock) blocksHit += 1;
+        blocksTotal += 1;
+        float ratio = (float)blocksHit / (float)blocksTotal;
+        if (ratio >= 1) scoreText.text = "S";
+        else if (ratio >=0.9) scoreText.text = "A";
+        else if (ratio >= 0.8) scoreText.text = "B";
+        else if (ratio >= 0.6) scoreText.text = "C";
+        else if (ratio >= 0.5) scoreText.text = "D";
+        else  scoreText.text = "F";
+    }
+
+
+
+    public float CurrentLoudness()
+    {
+        const int sampleDataLength = 1024;
+        float[] clipSampleData = new float[sampleDataLength];
+
+
+        audioSource.clip.GetData(clipSampleData, audioSource.timeSamples); //I read 1024 samples, which is about 80 ms on a 44khz stereo clip, beginning at the current sample position of the clip.
+        float clipLoudness = 0f;
+        foreach (var sample in clipSampleData)
+        {
+            clipLoudness += Mathf.Abs(sample);
+        }
+        clipLoudness /= sampleDataLength; //clipLoudness is what you are looking for
+        return clipLoudness;
+
+    }
+}
