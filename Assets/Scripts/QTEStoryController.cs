@@ -78,7 +78,7 @@ public class QTEStoryController : MonoBehaviour
     [System.Obsolete]
     private IEnumerator WinSequence()
     {
-        dialogueText.text = "<color=green>You survived!</color>";
+        dialogueText.text = "<color=green>You just a job!</color>";
         yield return new WaitForSeconds(SceneChangeDelay);
         SceneTransitionManager.Instance.TransitionToScene(targetScene);
         // TODO: Trigger win condition logic
