@@ -7,11 +7,17 @@ public class CrosshairController : MonoBehaviour
     private Camera mainCam;
     private float zPlane = -1f;
     private Vector3 crosshairPos;
+    private Vector3 initialAccel;
 
     void Start()
     {
         mainCam = Camera.main;
         Cursor.visible = false;
+
+        // Capture the initial accelerometer position
+#if UNITY_ANDROID || UNITY_IOS
+        initialAccel = Input.acceleration;
+#endif
 
         // Start at screen center
         Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, Mathf.Abs(mainCam.transform.position.z - zPlane));
@@ -22,9 +28,8 @@ public class CrosshairController : MonoBehaviour
     void Update()
     {
 #if UNITY_ANDROID || UNITY_IOS
-        // Use accelerometer tilt input
-        Vector3 accel = Input.acceleration;
-
+        // Use accelerometer tilt input relative to initial position
+        Vector3 accel = Input.acceleration - initialAccel;
         crosshairPos.x += accel.x * tiltSensitivity * Time.deltaTime;
         crosshairPos.y += accel.y * tiltSensitivity * Time.deltaTime;
 #else
