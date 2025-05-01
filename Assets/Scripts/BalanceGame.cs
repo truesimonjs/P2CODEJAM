@@ -6,6 +6,7 @@ public class BalanceGame : MonoBehaviour
 {
     public float SceneChangeDelay = 2f;
     [SerializeField] private string targetScene;
+    [SerializeField] private string targetLoseScene;
 
     [Header("Scoop Settings")]
     public GameObject[] iceCreamPrefabs;
@@ -132,6 +133,7 @@ public class BalanceGame : MonoBehaviour
         }
         else
         {
+            Lose();
             Debug.Log("You Lose! Scoops Balanced: " + stillOnBoard);
         }
     }
@@ -148,4 +150,19 @@ public class BalanceGame : MonoBehaviour
         SceneTransitionManager.Instance.TransitionToScene(targetScene);
         // TODO: Trigger win condition logic
     }
+
+    [System.Obsolete]
+    public void Lose()
+    {
+        StartCoroutine(LoseSequence());
+    }
+
+    [System.Obsolete]
+    private IEnumerator LoseSequence()
+    {
+        yield return new WaitForSeconds(SceneChangeDelay);
+        SceneTransitionManager.Instance.TransitionToScene(targetLoseScene);
+        // TODO: Trigger win condition logic
+    }
+
 }

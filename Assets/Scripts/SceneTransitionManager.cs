@@ -63,4 +63,5 @@ public class SceneTransitionManager : MonoBehaviour
         fadeCanvasGroup.alpha = targetAlpha;
     }
 
+
 }

@@ -665,6 +665,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SceneChangeDelay: 2
   targetScene: SampleScene
+  targetLoseScene: MainMenu
   iceCreamPrefabs:
   - {fileID: 6436852314458823070, guid: 1304eace0cca21145b22d7cd63e63bde, type: 3}
   - {fileID: 3208574373653279372, guid: 56379ab4446589740b2eb3d004e9affc, type: 3}
