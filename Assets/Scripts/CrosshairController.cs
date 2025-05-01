@@ -3,46 +3,56 @@
 public class CrosshairController : MonoBehaviour
 {
     public float noiseAmount = 0.1f;
+    public float tiltSensitivity = 5f; // Adjust for accelerometer movement
     private Camera mainCam;
-    private float zPlane = -1;
+    private float zPlane = -1f;
+    private Vector3 crosshairPos;
 
     void Start()
     {
         mainCam = Camera.main;
         Cursor.visible = false;
+
+        // Start at screen center
+        Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, Mathf.Abs(mainCam.transform.position.z - zPlane));
+        crosshairPos = mainCam.ScreenToWorldPoint(screenCenter);
+        crosshairPos.z = zPlane;
     }
 
     void Update()
     {
-        // Get mouse position in screen space
+#if UNITY_ANDROID || UNITY_IOS
+        // Use accelerometer tilt input
+        Vector3 accel = Input.acceleration;
+
+        crosshairPos.x += accel.x * tiltSensitivity * Time.deltaTime;
+        crosshairPos.y += accel.y * tiltSensitivity * Time.deltaTime;
+#else
+        // Use mouse position on PC
         Vector3 mouseScreenPos = Input.mousePosition;
-
-        // Ensure correct Z for screen-to-world conversion
         mouseScreenPos.z = Mathf.Abs(mainCam.transform.position.z - zPlane);
+        crosshairPos = mainCam.ScreenToWorldPoint(mouseScreenPos);
+#endif
 
-        // Convert to world space
-        Vector3 worldPos = mainCam.ScreenToWorldPoint(mouseScreenPos);
+        // Add screen shake noise
+        crosshairPos.x += Random.Range(-noiseAmount, noiseAmount);
+        crosshairPos.y += Random.Range(-noiseAmount, noiseAmount);
 
-        // Add noise
-        worldPos.x += Random.Range(-noiseAmount, noiseAmount);
-        worldPos.y += Random.Range(-noiseAmount, noiseAmount);
-
-        // Clamp to camera world bounds
-        Vector3 clampedPos = ClampToCameraBounds(worldPos);
-
-        // Set final position
-        clampedPos.z = zPlane;
-        transform.position = clampedPos;
+        // Clamp position to camera bounds
+        Vector3 clamped = ClampToCameraBounds(crosshairPos);
+        clamped.z = zPlane;
+        transform.position = clamped;
     }
 
-    Vector3 ClampToCameraBounds(Vector3 position)
+    Vector3 ClampToCameraBounds(Vector3 pos)
     {
-        Vector3 min = mainCam.ViewportToWorldPoint(new Vector3(0, 0, Mathf.Abs(mainCam.transform.position.z - zPlane)));
-        Vector3 max = mainCam.ViewportToWorldPoint(new Vector3(1, 1, Mathf.Abs(mainCam.transform.position.z - zPlane)));
+        float camZ = Mathf.Abs(mainCam.transform.position.z - zPlane);
+        Vector3 min = mainCam.ViewportToWorldPoint(new Vector3(0, 0, camZ));
+        Vector3 max = mainCam.ViewportToWorldPoint(new Vector3(1, 1, camZ));
 
-        position.x = Mathf.Clamp(position.x, min.x, max.x);
-        position.y = Mathf.Clamp(position.y, min.y, max.y);
+        pos.x = Mathf.Clamp(pos.x, min.x, max.x);
+        pos.y = Mathf.Clamp(pos.y, min.y, max.y);
 
-        return position;
+        return pos;
     }
 }
