@@ -1,0 +1,2 @@
+E:\files\unity projects\P2CODEJAM\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\CMakeLists.txt
+E:\files\unity projects\P2CODEJAM\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\CMakeLists.txt
