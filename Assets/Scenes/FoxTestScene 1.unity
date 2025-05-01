@@ -2519,7 +2519,7 @@ MonoBehaviour:
   outfitManager: {fileID: 69425228}
   winThreshold: 10
   resultText: {fileID: 1576638090}
-  nextSceneName: NextLevelScene
+  nextSceneName: MarcusScene
   menuSceneName: MainMenu
 --- !u!4 &1508031321
 Transform:

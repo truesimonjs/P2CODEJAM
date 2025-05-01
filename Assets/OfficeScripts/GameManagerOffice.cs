@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections;
 using UnityEngine.SceneManagement;
 
 public class GameManagerOffice : MonoBehaviour
@@ -18,6 +19,10 @@ public class GameManagerOffice : MonoBehaviour
     private bool hasLost = false;
 
     private float currentLoseTime;
+    
+    public float SceneChangeDelay = 2f;
+    [SerializeField] private string targetWinScene;
+    [SerializeField] private string targetLoseScene;
 
     // UI Elements for timer
     public Image LoseTimeFill; // UI Image for circular timer
@@ -55,7 +60,37 @@ public class GameManagerOffice : MonoBehaviour
             WinScreen.SetActive(true);
             Hand.SetActive(false);
             hasWon = true;
+            Win();
         }
+    }
+    
+    public void Win()
+    {
+        StartCoroutine(WinSequence());
+    }
+
+    [System.Obsolete]
+    private IEnumerator WinSequence()
+    {
+        Time.timeScale = 1f;
+        yield return new WaitForSeconds(SceneChangeDelay);
+        SceneTransitionManager.Instance.TransitionToScene(targetWinScene);
+        // TODO: Trigger win condition logic
+    }
+
+    [System.Obsolete]
+    public void Lose()
+    {
+        StartCoroutine(LoseSequence());
+    }
+
+    [System.Obsolete]
+    private IEnumerator LoseSequence()
+    {
+        yield return new WaitForSeconds(SceneChangeDelay);
+        SceneTransitionManager.Instance.TransitionToScene(targetLoseScene);
+        // TODO: Trigger win condition logic
+        Time.timeScale = 1f;
     }
     
     // Reload scene if u lose

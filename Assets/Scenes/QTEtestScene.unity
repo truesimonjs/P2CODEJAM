@@ -1020,7 +1020,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueText: {fileID: 750533717}
   qteManager: {fileID: 721969289}
-  targetScene: BalanceGame
+  targetScene: SampleScene Liza
   dialogueBeforeEachQTE:
   - Salutations, creature of meat
   - The Board/Boss finds your answer/reponse acceptable
@@ -1548,7 +1548,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1011461645
 MonoBehaviour:
   m_ObjectHideFlags: 0

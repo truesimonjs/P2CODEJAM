@@ -943,7 +943,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e9b91345a80f8341b0345960ec3be2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetScene: BalanceGameScene
+  targetScene: FoxTestScene 1
 --- !u!4 &986787780
 Transform:
   m_ObjectHideFlags: 0

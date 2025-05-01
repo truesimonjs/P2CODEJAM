@@ -10,6 +10,6 @@ public class SceneChanger : MonoBehaviour
 
     public void LoadSceneByIndex(int sceneIndex)
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(5);
     }
 }

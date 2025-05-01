@@ -2002,7 +2002,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1855428061}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameManagerOffice, Assembly-CSharp
         m_MethodName: RestartOfficeScene
         m_Mode: 1
@@ -2338,7 +2338,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 776155503}
-  gameManagerOffice: {fileID: 1855428061}
+  gameManagerOffice1: {fileID: 0}
 --- !u!1 &801736638
 GameObject:
   m_ObjectHideFlags: 0
@@ -3382,7 +3382,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -105.79999, y: -93.20001}
+  m_AnchoredPosition: {x: -105.80005, y: -93.200195}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1705716026
@@ -3943,6 +3943,9 @@ MonoBehaviour:
   WinScreen: {fileID: 301295156}
   LoseScreen: {fileID: 1183985398}
   LoseTime: 30
+  SceneChangeDelay: 2
+  targetWinScene: 
+  targetLoseScene: 
   LoseTimeFill: {fileID: 158973009}
   LoseTimeText: {fileID: 659757916}
 --- !u!4 &1855428062
