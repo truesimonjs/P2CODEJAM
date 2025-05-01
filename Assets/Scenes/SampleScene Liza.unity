@@ -206,8 +206,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e299ad08b41464c6eb498c635639994a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  closeButton: {fileID: 1202066179}
-  manager: {fileID: 1179188175}
 --- !u!1 &142796695
 GameObject:
   m_ObjectHideFlags: 0
@@ -772,9 +770,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1179188174}
-  - component: {fileID: 1179188173}
   - component: {fileID: 1179188175}
   - component: {fileID: 1179188176}
+  - component: {fileID: 1179188177}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -782,20 +780,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1179188173
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1179188172}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e299ad08b41464c6eb498c635639994a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  closeButton: {fileID: 1202066179}
-  manager: {fileID: 1179188175}
 --- !u!4 &1179188174
 Transform:
   m_ObjectHideFlags: 0
@@ -820,12 +804,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1179188172}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc1d2af4c54224d6c931716396750e4b, type: 3}
+  m_Script: {fileID: 11500000, guid: b07ec1ba300d546a2b50427e6e4535a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiPrefab: {fileID: 48350092}
-  maxPanels: 7
-  canvasTransform: {fileID: 0}
+  sceneToLoad: SampleScene Liza
 --- !u!114 &1179188176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -838,6 +820,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f887f0699d984063b6390c11850fe8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1179188177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1179188172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 294e4355555f949418b492b93d790035, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiPanelToClose: {fileID: 1202066178}
 --- !u!1 &1202066178
 GameObject:
   m_ObjectHideFlags: 0
@@ -900,19 +895,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1202066180}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11500000, guid: e299ad08b41464c6eb498c635639994a, type: 3}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1202066180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1263,7 +1246,7 @@ GameObject:
   - component: {fileID: 1625319834}
   - component: {fileID: 1625319833}
   m_Layer: 5
-  m_Name: StartGame Screen
+  m_Name: StartGame Screen (canvas)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1504,7 +1487,7 @@ GameObject:
   - component: {fileID: 2123324665}
   - component: {fileID: 2123324664}
   m_Layer: 0
-  m_Name: Close
+  m_Name: Close (canvas)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
