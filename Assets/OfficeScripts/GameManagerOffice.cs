@@ -32,6 +32,8 @@ public class GameManagerOffice : MonoBehaviour
     {
         currentLoseTime = LoseTime;
         LoseTimeFill.fillAmount = currentLoseTime / LoseTime;
+        hasWon = false;
+        hasLost = false;
     }
 
     void Update()
@@ -73,9 +75,12 @@ public class GameManagerOffice : MonoBehaviour
     private IEnumerator WinSequence()
     {
         Time.timeScale = 1f;
+        hasWon = false;
+        hasLost = false;
         yield return new WaitForSeconds(SceneChangeDelay);
         SceneTransitionManager.Instance.TransitionToScene(targetWinScene);
         // TODO: Trigger win condition logic
+        
     }
 
     [System.Obsolete]

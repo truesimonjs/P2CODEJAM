@@ -28,6 +28,8 @@ public class BalanceGame : MonoBehaviour
     private bool gameOver = false;
     private Rigidbody rb;
 
+    public GameObject WinScreen;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -130,6 +132,7 @@ public class BalanceGame : MonoBehaviour
         if (stillOnBoard >= WinNumber)
         {
             Win();
+            WinScreen.SetActive(true);
         }
         else
         {
