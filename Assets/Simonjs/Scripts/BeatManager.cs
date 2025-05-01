@@ -28,7 +28,9 @@ public class BeatManager : MonoBehaviour
     }
     private void Start()
     {
-        float x = 4;
+        InvokeRepeating("SpawnBlock", 0, secPerBeat);
+        
+        /*float x = 4;
         for (int i = 1; i <= 100; i++)
         {
             GameObject newblock = Instantiate(block);
@@ -37,9 +39,25 @@ public class BeatManager : MonoBehaviour
             newblock.GetComponent<BeatBlock>().destination = new Vector3(x, -9.5f, 0);
             x -= 1;
             if (x < -4) x = 4;
-        }
+        }*/
     }
-
+    const float xRange = 4;
+    const float yRange = 9.5f;
+    float x = xRange;
+    int i = 1;
+    public void SpawnBlock()
+    {
+        
+        
+            GameObject newblock = Instantiate(block);
+            newblock.GetComponent<BeatBlock>().destinationBeat = i;
+            newblock.transform.position = new Vector3(x, yRange, 0);
+            newblock.GetComponent<BeatBlock>().destination = new Vector3(x, -yRange, 0);
+            x -= 1;
+            if (x < -xRange) x = xRange;
+        i++;
+        
+    }
     private void Update()
     {
         songPosition = (float)AudioSettings.dspTime - songStart - firstBeatOffset;
