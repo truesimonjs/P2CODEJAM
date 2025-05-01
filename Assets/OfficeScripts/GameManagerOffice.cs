@@ -36,6 +36,12 @@ public class GameManagerOffice : MonoBehaviour
         hasLost = false;
     }
 
+    void Awake()
+    {
+        hasWon = false;
+        hasLost = false;
+    }
+
     void Update()
     {
         // Clock rundown timer animation thingy
@@ -75,6 +81,8 @@ public class GameManagerOffice : MonoBehaviour
     private IEnumerator WinSequence()
     {
         Time.timeScale = 1f;
+        WinScore = 300;
+        OfficeScore = 0;
         hasWon = false;
         hasLost = false;
         yield return new WaitForSeconds(SceneChangeDelay);
