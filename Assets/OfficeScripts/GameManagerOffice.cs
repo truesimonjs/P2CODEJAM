@@ -50,7 +50,7 @@ public class GameManagerOffice : MonoBehaviour
         }
         // Win if score quota is met
         
-        if (OfficeScore > WinScore && hasLost == false)
+        if (OfficeScore >= WinScore && hasLost == false)
         {
             WinScreen.SetActive(true);
             Hand.SetActive(false);

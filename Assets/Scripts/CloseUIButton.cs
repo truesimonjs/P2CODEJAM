@@ -2,28 +2,46 @@ using UnityEngine;
 
 public class CloseUIButton : MonoBehaviour
 {
-    // Reference to the parent UI panel
+    [Header("Assign the parent UI panel (optional)")]
     public GameObject uiPanelToClose;
+
+    private GameManagerOffice gameManagerOffice;
 
     void Awake()
     {
-        // If not assigned manually, default to the parent GameObject
+        // Default to parent GameObject if not manually assigned
         if (uiPanelToClose == null)
         {
             uiPanelToClose = transform.parent.gameObject;
         }
+
+        // Automatically find GameManagerOffice in the scene
+        gameManagerOffice = FindObjectOfType<GameManagerOffice>();
+
+        if (gameManagerOffice == null)
+        {
+            Debug.LogWarning("GameManagerOffice reference not found in the scene.");
+        }
     }
 
-    // This function will be called when the button is clicked
     public void CloseUI()
     {
-        if (uiPanelToClose != null)
+        if (!uiPanelToClose)
         {
-            uiPanelToClose.SetActive(false);
+            Debug.LogWarning("UI panel reference is missing.");
+            return;
+        }
+
+        uiPanelToClose.SetActive(false);
+
+        if (gameManagerOffice)
+        {
+            gameManagerOffice.OfficeScore++;
+            Debug.Log(gameManagerOffice.OfficeScore);
         }
         else
         {
-            Debug.LogWarning("UI Panel to close is not assigned.");
+            Debug.LogWarning("Cannot increase OfficeScore—GameManagerOffice reference is missing.");
         }
     }
 }
