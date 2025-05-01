@@ -24805,7 +24805,7 @@ MonoBehaviour:
   LoseTime: 30
   SceneChangeDelay: 2
   targetWinScene: DartScene
-  targetLoseScene: 
+  targetLoseScene: GameManagerOffice
   LoseTimeFill: {fileID: 251324249}
   LoseTimeText: {fileID: 555467643}
 --- !u!4 &1382995659
