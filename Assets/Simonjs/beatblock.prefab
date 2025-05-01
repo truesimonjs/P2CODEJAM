@@ -124,3 +124,4 @@ MonoBehaviour:
   destination: {x: 0, y: -9.5, z: 0}
   destinationBeat: 1
   travelTime: 4
+  buttonTimeoutTime: 0.1
