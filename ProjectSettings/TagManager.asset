@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Dartboard
   layers:
   - Default
   - TransparentFX
@@ -11,7 +12,8 @@ TagManager:
   - 
   - Water
   - UI
-  - Just Higher
+  - 
+  - hitLayer
   - 
   - 
   - 
@@ -21,9 +23,8 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
+  - OfficePlayerHand
+  - OfficeDesk
   - 
   - 
   - 
