@@ -2,8 +2,9 @@
 
 public class CrosshairController : MonoBehaviour
 {
-    public float noiseAmount = 0.1f;
-    public float tiltSensitivity = 5f; // Adjust for accelerometer movement
+    public float tiltSensitivity = 5f;     // Controls responsiveness to tilt
+    public float noiseAmount = 0.1f;       // Adds slight shake
+    public float maxOffset = 2f;           // Max distance from screen center in world units
     private Camera mainCam;
     private float zPlane = -1f;
     private Vector3 crosshairPos;
@@ -14,12 +15,11 @@ public class CrosshairController : MonoBehaviour
         mainCam = Camera.main;
         Cursor.visible = false;
 
-        // Capture the initial accelerometer position
 #if UNITY_ANDROID || UNITY_IOS
         initialAccel = Input.acceleration;
 #endif
 
-        // Start at screen center
+        // Set initial crosshair position at screen center
         Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, Mathf.Abs(mainCam.transform.position.z - zPlane));
         crosshairPos = mainCam.ScreenToWorldPoint(screenCenter);
         crosshairPos.z = zPlane;
@@ -28,22 +28,28 @@ public class CrosshairController : MonoBehaviour
     void Update()
     {
 #if UNITY_ANDROID || UNITY_IOS
-        // Use accelerometer tilt input relative to initial position
+        // Directly map tilt to offset from center
         Vector3 accel = Input.acceleration - initialAccel;
-        crosshairPos.x += accel.x * tiltSensitivity * Time.deltaTime;
-        crosshairPos.y += accel.y * tiltSensitivity * Time.deltaTime;
+
+        Vector3 screenCenter = mainCam.ScreenToWorldPoint(new Vector3(Screen.width / 2f, Screen.height / 2f, Mathf.Abs(mainCam.transform.position.z - zPlane)));
+        Vector3 offset = new Vector3(accel.x, accel.y, 0f) * tiltSensitivity;
+        offset = Vector3.ClampMagnitude(offset, maxOffset);
+
+        Vector3 targetPos = screenCenter + offset;
+        crosshairPos = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * 10f); // smooth movement
+
 #else
-        // Use mouse position on PC
+        // Mouse-based input
         Vector3 mouseScreenPos = Input.mousePosition;
         mouseScreenPos.z = Mathf.Abs(mainCam.transform.position.z - zPlane);
         crosshairPos = mainCam.ScreenToWorldPoint(mouseScreenPos);
 #endif
 
-        // Add screen shake noise
+        // Add noise
         crosshairPos.x += Random.Range(-noiseAmount, noiseAmount);
         crosshairPos.y += Random.Range(-noiseAmount, noiseAmount);
 
-        // Clamp position to camera bounds
+        // Clamp to camera view
         Vector3 clamped = ClampToCameraBounds(crosshairPos);
         clamped.z = zPlane;
         transform.position = clamped;
@@ -59,5 +65,13 @@ public class CrosshairController : MonoBehaviour
         pos.y = Mathf.Clamp(pos.y, min.y, max.y);
 
         return pos;
+    }
+
+    // Optional: Call this from a UI button to recalibrate
+    public void RecenterTilt()
+    {
+#if UNITY_ANDROID || UNITY_IOS
+        initialAccel = Input.acceleration;
+#endif
     }
 }
