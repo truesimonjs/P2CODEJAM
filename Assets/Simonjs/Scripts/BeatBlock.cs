@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 public class BeatBlock : MonoBehaviour
 {
@@ -9,28 +9,29 @@ public class BeatBlock : MonoBehaviour
     public float travelTime = 5;
     public float buttonTimeoutTime = 20f;
     private float lastPress;
-    private bool playerPressedButton 
-    { get
+    private bool playerPressedButton
+    {
+        get
         {
             Debug.Log(lastPress >= Time.time - buttonTimeoutTime);
             return lastPress >= Time.time - buttonTimeoutTime;
-           
-        } 
+
+        }
     }
     private void Start()
     {
         origin = transform.position;
-        
-        
+
+
     }
     private void Update()
     {
         if (Input.GetKey(KeyCode.Mouse0))
         {
             lastPress = Time.time;
-            
+
         }
-        
+
     }
     private bool doLateUpdate = true;
     private void LateUpdate()
@@ -41,30 +42,32 @@ public class BeatBlock : MonoBehaviour
 
         float hitTime = destinationBeat * secPerBeat;
         float startTime = hitTime - travelTime;
-        transform.position = Vector3.Lerp(origin, destination, (currentTime-startTime)/travelTime);
-        if ((currentTime - startTime) / travelTime >= 1) 
+        transform.position = Vector3.Lerp(origin, destination, (currentTime - startTime) / travelTime);
+        if ((currentTime - startTime) / travelTime >= 1)
         {
-           
+
             StartCoroutine(EndBlock());
             doLateUpdate = false;
         }
-        
+
 
     }
 
-   
+
     public IEnumerator EndBlock()
     {
-        
-        float blockDeathTime = Time.time+0.1f;
-        while (!playerPressedButton&&Time.time<blockDeathTime)
+
+        float blockDeathTime = Time.time + 0.1f;
+        while (!playerPressedButton && Time.time < blockDeathTime)
         {
-            
-            
+
+
             if (playerPressedButton) GetComponent<MeshRenderer>().material.color = Color.green;
             yield return new WaitForSeconds(0);
         }
-        GetComponent<MeshRenderer>().material.color = playerPressedButton ? Color.green:Color.red;
+
+        GetComponent<MeshRenderer>().material.color = playerPressedButton ? Color.green : Color.red;
+        BeatManager.instance.BlockFinished(playerPressedButton);
         yield return new WaitForSeconds(0.25f);
         Destroy(gameObject);
     }
