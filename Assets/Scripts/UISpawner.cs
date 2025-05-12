@@ -44,64 +44,67 @@ public class UISpawner : MonoBehaviour
     }
 
     void SpawnUI()
+{
+    if (uiPrefab != null && parentTransform != null)
     {
-        if (uiPrefab != null && parentTransform != null)
+        GameObject spawnedUI = Instantiate(uiPrefab, parentTransform);
+
+        // Ensure the object is active
+        spawnedUI.SetActive(true);
+
+        // Add to tracking list
+        spawnedObjects.Add(spawnedUI);
+
+        RectTransform rect = spawnedUI.GetComponent<RectTransform>();
+        if (rect != null)
         {
-            GameObject spawnedUI = Instantiate(uiPrefab, parentTransform);
+            rect.localScale = Vector3.one;
+            rect.localRotation = Quaternion.identity;
 
-            // Add to tracking list
-            spawnedObjects.Add(spawnedUI);
-
-            RectTransform rect = spawnedUI.GetComponent<RectTransform>();
-            if (rect != null)
+            // Get parent RectTransform (Canvas or Panel)
+            RectTransform parentRect = parentTransform.GetComponent<RectTransform>();
+            if (parentRect != null)
             {
-                rect.localScale = Vector3.one;
-                rect.localRotation = Quaternion.identity;
+                // Get the safe area from Screen.safeArea (in pixels)
+                Rect safeArea = Screen.safeArea;
 
-                // Get parent RectTransform (Canvas or Panel)
-                RectTransform parentRect = parentTransform.GetComponent<RectTransform>();
-                if (parentRect != null)
-                {
-                    // Get the safe area from Screen.safeArea (in pixels)
-                    Rect safeArea = Screen.safeArea;
+                // Convert the safe area to Canvas units
+                Vector2 anchorMin = safeArea.position;
+                Vector2 anchorMax = safeArea.position + safeArea.size;
 
-                    // Convert the safe area to Canvas units
-                    Vector2 anchorMin = safeArea.position;
-                    Vector2 anchorMax = safeArea.position + safeArea.size;
+                anchorMin.x /= Screen.width;
+                anchorMin.y /= Screen.height;
+                anchorMax.x /= Screen.width;
+                anchorMax.y /= Screen.height;
 
-                    anchorMin.x /= Screen.width;
-                    anchorMin.y /= Screen.height;
-                    anchorMax.x /= Screen.width;
-                    anchorMax.y /= Screen.height;
+                // Calculate the safe area size in Canvas space
+                float safeWidth = parentRect.rect.width * (anchorMax.x - anchorMin.x);
+                float safeHeight = parentRect.rect.height * (anchorMax.y - anchorMin.y);
 
-                    // Calculate the safe area size in Canvas space
-                    float safeWidth = parentRect.rect.width * (anchorMax.x - anchorMin.x);
-                    float safeHeight = parentRect.rect.height * (anchorMax.y - anchorMin.y);
+                float safeX = parentRect.rect.width * anchorMin.x - parentRect.rect.width / 2f;
+                float safeY = parentRect.rect.height * anchorMin.y - parentRect.rect.height / 2f;
 
-                    float safeX = parentRect.rect.width * anchorMin.x - parentRect.rect.width / 2f;
-                    float safeY = parentRect.rect.height * anchorMin.y - parentRect.rect.height / 2f;
+                // Add padding to avoid edges
+                safeWidth -= padding * 2f;
+                safeHeight -= padding * 2f;
+                safeX += padding;
+                safeY += padding;
 
-                    // Add padding to avoid edges
-                    safeWidth -= padding * 2f;
-                    safeHeight -= padding * 2f;
-                    safeX += padding;
-                    safeY += padding;
+                // Random position inside safe area with padding, ensuring it doesn't go off-screen
+                Vector2 randomPos = new Vector2(
+                    Mathf.Clamp(Random.Range(safeX, safeX + safeWidth), safeX, safeX + safeWidth),
+                    Mathf.Clamp(Random.Range(safeY, safeY + safeHeight), safeY, safeY + safeHeight)
+                );
 
-                    // Random position inside safe area with padding, ensuring it doesn't go off-screen
-                    Vector2 randomPos = new Vector2(
-                        Mathf.Clamp(Random.Range(safeX, safeX + safeWidth), safeX, safeX + safeWidth),
-                        Mathf.Clamp(Random.Range(safeY, safeY + safeHeight), safeY, safeY + safeHeight)
-                    );
-
-                    rect.anchoredPosition = randomPos;
-                }
+                rect.anchoredPosition = randomPos;
             }
         }
-        else
-        {
-            Debug.LogWarning("Prefab or Parent Transform is not assigned.");
-        }
     }
+    else
+    {
+        Debug.LogWarning("Prefab or Parent Transform is not assigned.");
+    }
+}
 
     // Clean up inactive objects that are not being used anymore
     void CleanUpInactiveObjects()
