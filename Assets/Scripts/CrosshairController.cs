@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿/*using UnityEngine;
 
 public class CrosshairController : MonoBehaviour
 {
@@ -74,4 +74,4 @@ public class CrosshairController : MonoBehaviour
         initialAccel = Input.acceleration;
 #endif
     }
-}
+}*/
